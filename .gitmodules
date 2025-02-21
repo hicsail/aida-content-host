@@ -1,0 +1,3 @@
+[submodule "server/cmac_arg"]
+	path = server/cmac_arg
+	url = https://github.com/samosborn/cmac_arg.git
