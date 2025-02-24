@@ -62,29 +62,29 @@ jobs:
           build-args: |
             VITE_CHATBOT_URL=${{ secrets.VITE_CHATBOT_URL }}
 
-  visualization:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-          fetch-depth: 0
-          token: ${{ secrets.PAT }}
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+  # visualization:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: docker/setup-qemu-action@v3
+  #     - uses: docker/setup-buildx-action@v3
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         submodules: true
+  #         fetch-depth: 0
+  #         token: ${{ secrets.PAT }}
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: 3.11
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Push Docker Staging Build
-        uses: docker/build-push-action@v5
-        with:
-          context: ./servers/visualization
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: hicsail/aida-visualization:staging
+  #     - name: Build & Push Docker Staging Build
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: ./servers/visualization
+  #         push: ${{ github.event_name != 'pull_request' }}
+  #         tags: hicsail/aida-visualization:staging
