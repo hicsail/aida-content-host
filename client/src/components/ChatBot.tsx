@@ -36,8 +36,8 @@ export const Chatbot: FC = () => {
   return (
     <Box
       sx={{
-        width: 400,
-        height: 600,
+        width: "400px",
+        height: "600px",
         display: "flex",
         flexDirection: "column",
       }}
