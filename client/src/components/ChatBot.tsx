@@ -1,29 +1,47 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { IconButton, Paper, TextField, Box, Typography } from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import ChatIcon from "@mui/icons-material/Chat";
 
 export const Chatbot: FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<any[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
     setOpen(!open);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (message.trim() !== "") {
       const newMessages = [...messages, { text: message, sender: "user" }];
-      newMessages.push({ text: "This is a default reply.", sender: "bot" });
       setMessages(newMessages);
       setMessage("");
+
+      try {
+        const resposne = await fetch(`${import.meta.env.VITE_CHATBOT_URL}/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: message }),
+        });
+
+        const data = await resposne.json();
+
+        setMessages((prevMessages) => [...prevMessages, { text: data.answer, sender: "bot" }]);
+      } catch (error) {
+        console.error("Error fetching response:", error);
+      }
     }
   };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <Box sx={{ position: "fixed", bottom: 16, right: 16, zIndex: 1000 }}>
+    <Box>
       {!open && (
         <IconButton
           onClick={handleToggle}
@@ -31,7 +49,7 @@ export const Chatbot: FC = () => {
             backgroundColor: "#c00",
             color: "white",
             p: 2,
-            "&:hover": { backgroundColor: "maroon" },
+            "&:hover": { backgroundColor: "darkred" },
           }}
         >
           <ChatIcon />
@@ -42,12 +60,9 @@ export const Chatbot: FC = () => {
           elevation={4}
           sx={{
             width: 400,
-            height: 500,
+            height: 600,
             display: "flex",
             flexDirection: "column",
-            position: "absolute",
-            bottom: 0,
-            right: 0,
             border: "2px solid maroon",
           }}
         >
@@ -92,6 +107,7 @@ export const Chatbot: FC = () => {
                 <Typography>{msg.text}</Typography>
               </Box>
             ))}
+            <div ref={messagesEndRef} />
           </Box>
           <Box
             sx={{
