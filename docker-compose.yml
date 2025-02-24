@@ -21,16 +21,16 @@ services:
     networks:
       - app-network
 
-  visualization:
-    image: hicsail/aida-visualization:staging
-    platform: linux/amd64
-    build:
-      context: ./servers/visualization
-      dockerfile: Dockerfile
-    ports:
-      - 3023:8092
-    networks:
-      - app-network
+  # visualization:
+  #   image: hicsail/aida-visualization:staging
+  #   platform: linux/amd64
+  #   build:
+  #     context: ./servers/visualization
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3023:8092
+  #   networks:
+  #     - app-network
 
 networks:
   app-network:
