@@ -23,6 +23,7 @@ services:
 
   visualization:
     image: hicsail/aida-visualization:staging
+    platform: linux/amd64
     build:
       context: ./servers/visualization
       dockerfile: Dockerfile
