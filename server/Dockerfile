@@ -13,7 +13,7 @@ COPY . .
 
 RUN mkdir -p /app/cmac_arg
 
-RUN echo 'import os\nfrom dotenv import load_dotenv\nload_dotenv()\ndef openai_key():\n    return os.environ.get(\"OPENAI_API_KEY\")' > /app/cmac_arg/credentials.py
+RUN echo 'import os\nfrom dotenv import load_dotenv\nload_dotenv()\ndef openai_key():\n    return os.environ.get("OPENAI_API_KEY")' > /app/cmac_arg/credentials.py
 
 EXPOSE 5000
 
