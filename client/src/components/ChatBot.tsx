@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { IconButton, Paper, TextField, Box, Typography } from "@mui/material";
+import { IconButton, TextField, Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 export const Chatbot: FC = () => {
@@ -36,8 +36,8 @@ export const Chatbot: FC = () => {
   return (
     <Box
       sx={{
-        width: 400,
-        height: 600,
+        width: "400px",
+        height: "600px",
         display: "flex",
         flexDirection: "column",
       }}
