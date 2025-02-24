@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { IconButton, Paper, TextField, Box, Typography } from "@mui/material";
+import { IconButton, TextField, Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 export const Chatbot: FC = () => {
