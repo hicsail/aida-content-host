@@ -1,0 +1,15 @@
+flask
+flask-cors
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langchain-chroma
+langchain-text-splitters
+langgraph
+chromadb
+bs4
+pymupdf
+pdfplumber
+pypdf
+python-dotenv

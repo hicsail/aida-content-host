@@ -16,8 +16,18 @@ services:
   server:
     image: hicsail/aida-chatbot-server:staging
     build:
-      context: ./server
+      context: ./servers/chatbot
       dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  visualization:
+    image: hicsail/aida-visualization:staging
+    build:
+      context: ./servers/visualization
+      dockerfile: Dockerfile
+    ports:
+      - 3023:8092
     networks:
       - app-network
 
