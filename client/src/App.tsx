@@ -1,23 +1,11 @@
-import { Box, Typography } from "@mui/material";
 import "./App.css";
 import { Chatbot } from "./components/ChatBot";
+import { withDomainCheck } from "./hoc/withDomainCheck";
 
 function App() {
-  const allowedDomains = /\.bu.edu$/;
+  const SecuredChatBot = withDomainCheck(Chatbot);
 
-  if (!allowedDomains.test(window.location.hostname)) {
-    console.log("Access Denied");
-    return (
-      <Box>
-        <Typography variant="h1">Access Denied</Typography>
-        <Typography variant="body1">
-          This chatbot is only accessible from the Boston University domain.
-        </Typography>
-      </Box>
-    );
-  }
-
-  return <Chatbot />;
+  return <SecuredChatBot />;
 }
 
 export default App;
