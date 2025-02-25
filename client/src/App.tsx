@@ -1,9 +1,9 @@
 import "./App.css";
 import { Chatbot } from "./components/ChatBot";
-import { withDomainCheck } from "./hoc/withDomainCheck";
+import { withEmbedding } from "./hoc/withEmbedding";
 
 function App() {
-  const SecuredChatBot = withDomainCheck(Chatbot);
+  const SecuredChatBot = withEmbedding(Chatbot);
 
   return <SecuredChatBot />;
 }
