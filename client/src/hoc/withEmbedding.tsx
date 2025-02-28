@@ -5,8 +5,9 @@ export const withEmbedding =
   <P extends object>(Component: ComponentType<P>) =>
   (props: P) => {
     const isEmbedded = window.self !== window.top;
+    const isLocalhost = window.location.hostname === "localhost";
 
-    if (!isEmbedded) {
+    if (!isEmbedded && !isLocalhost) {
       console.error("Access Denied");
       return (
         <Box>
