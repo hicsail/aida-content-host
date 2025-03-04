@@ -11,6 +11,9 @@ COPY package.json ./
 ARG VITE_CHATBOT_URL
 ENV VITE_CHATBOT_URL=${VITE_CHATBOT_URL}
 
+ARG VITE_DB_API_URL
+ENV VITE_DB_API_URL=${VITE_DB_API_URL}
+
 # Install dependencies
 RUN npm install
 
