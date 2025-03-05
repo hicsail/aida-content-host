@@ -4,7 +4,8 @@ usage() {
     echo
     echo "Options:"
     echo "  -h, --help              Display this help message"
-    echo "  -c, --chatbot           Run chatbot service only"
+    echo "  -d, --database          Run MongoDB service only"
+    echo "  -f, --frontend          Run React frontend service only"
     echo "  -v, --visualization     Run visualization service only"
     echo "  -a, --all               Run all services"
     exit 1
@@ -18,9 +19,13 @@ case "$1" in
     -h|--help)
         usage
         ;;
-    -c|--chatbot)
-        echo "Starting chatbot service..."
-        docker-compose -f docker-compose-local.yml up -d --build client server
+    -d|--database)
+        echo "Starting database service..."
+        docker-compose -f docker-compose-local.yml up -d --build mongodb
+        ;;
+    -f|--frontend)
+        echo "Starting React frontend service..."
+        docker-compose -f docker-compose-local.yml up -d --build client server db-api mongodb
         ;;
     -v|--visualization)
         echo "Starting visualization service..."
