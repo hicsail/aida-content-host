@@ -1,0 +1,5 @@
+{
+    "1": "Cluster 1 includes topics: GenAI Risk and Use Cases, GenAI Safety Guidelines News, GenAI Impact on Labour Market, GenAI Impact on Business, GenAI Policy Enforcement Guidelines, Financial Impact Proposal Estimate. Error generating description: RetryError[<Future at 0x7d48a4b5f350 state=finished raised TypeError>]",
+    "2": "Cluster 2 includes topics: EU Legislative Framework Regulations, GenAI Privacy and Data Protection, GenAI Copyright Infringement Issues, GenAI Security and Prompt Risks, Corpus Safety And IPR Management. Error generating description: RetryError[<Future at 0x7d48a4158530 state=finished raised TypeError>]",
+    "3": "Cluster 3 includes topics: GenAI Integration In Education, GenAI Model Usage Risks, Academic Integrity and GenAI. Error generating description: RetryError[<Future at 0x7d48a0846c90 state=finished raised TypeError>]"
+}
