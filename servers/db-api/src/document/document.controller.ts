@@ -9,13 +9,13 @@ export class DocumentController {
   async getAllDocuments(): Promise<any[]> {
     const documents = await this.documentService.findAll();
     return documents.map((doc) => ({
-      document_id: doc.document_id,
+      pdf_id: doc.pdf_id,
       cluster: doc.category,
       title: doc.title,
-      description: doc.text_snippet,
+      description: doc.processed_text,
       topic: doc.topic_label,
       keywords: doc.topic_keywords,
-      date: new Date(),
+      date: doc.date ? new Date(doc.date).toDateString() : "",
     }));
   }
 
@@ -24,13 +24,13 @@ export class DocumentController {
     const doc = await this.documentService.findById(id);
     return doc
       ? {
-          document_id: doc.document_id,
+          pdf_id: doc.pdf_id,
           cluster: doc.category,
           title: doc.title,
-          description: doc.text_snippet,
+          description: doc.processed_text,
           topic: doc.topic_label,
           keywords: doc.topic_keywords,
-          date: new Date(),
+          date: doc.date ? new Date(doc.date).toDateString() : "",
         }
       : null;
   }
@@ -39,13 +39,13 @@ export class DocumentController {
   async getDocumentByTitle(@Param('title') title: string): Promise<any[]> {
     const documents = await this.documentService.findByTitle(title);
     return documents.map((doc) => ({
-      document_id: doc.document_id,
+      pdf_id: doc.pdf_id,
       cluster: doc.category,
       title: doc.title,
-      description: doc.text_snippet,
+      description: doc.processed_text,
       topic: doc.topic_label,
       keywords: doc.topic_keywords,
-      date: new Date(),
+      date: doc.date ? new Date(doc.date).toDateString() : "",
     }));
   }
 
@@ -70,13 +70,13 @@ export class DocumentController {
     );
 
     return documents.map((doc) => ({
-      document_id: doc.document_id,
+      pdf_id: doc.pdf_id,
       cluster: doc.category,
       title: doc.title,
-      description: doc.text_snippet,
+      description: doc.processed_text,
       topic: doc.topic_label,
       keywords: doc.topic_keywords,
-      date: new Date(),
+      date: doc.date ? new Date(doc.date).toDateString() : "",
     }));
   }
 }
