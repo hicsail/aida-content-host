@@ -1,21 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import "./App.css";
+// import { withEmbedding } from "./hoc/withEmbedding";
 import { Chatbot } from "./components/ChatBot";
-import { withEmbedding } from "./hoc/withEmbedding";
 import { BrowseDocs } from "./components/BrowseDocs/BrowseDocs";
 
 function App() {
-  const SecuredChatBot = withEmbedding(Chatbot);
-  const SecuredBrowseDocs = withEmbedding(BrowseDocs);
+  // const SecuredChatBot = withEmbedding(Chatbot);
+  // const SecuredBrowseDocs = withEmbedding(BrowseDocs);
 
   const router = createBrowserRouter([
     {
       path: "chat",
-      element: <SecuredChatBot />,
+      element: <Chatbot />,
     },
     {
       path: "browse",
-      element: <SecuredBrowseDocs />,
+      element: <BrowseDocs />,
     },
   ]);
 
