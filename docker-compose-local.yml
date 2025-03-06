@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  client:
+  frontend:
     build:
       context: ./client
       args:
@@ -9,19 +9,19 @@ services:
     ports:
       - 3000:80
     depends_on:
-      - server
-      - db-api
+      - backend-chatbot
+      - backend-digital-repo
     networks:
       - app-network
 
-  server:
+  backend-chatbot:
     build: ./servers/chatbot
     networks:
       - app-network
     env_file:
       - ./servers/chatbot/.env
 
-  db-api:
+  backend-digital-repo:
     build: ./servers/db-api
     depends_on:
       - mongodb

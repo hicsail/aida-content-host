@@ -25,7 +25,7 @@ case "$1" in
         ;;
     -f|--frontend)
         echo "Starting React frontend service..."
-        docker-compose -f docker-compose-local.yml up -d --build client server db-api mongodb
+        docker-compose -f docker-compose-local.yml up -d --build frontend backend-chatbot backend-digital-repo mongodb
         ;;
     -v|--visualization)
         echo "Starting visualization service..."
