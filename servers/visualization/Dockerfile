@@ -14,4 +14,4 @@ RUN python nltk_init.py
 
 EXPOSE 8092
 
-CMD ["python", "genai-interactive-topics/code/visualization.py", "--model_dir", "genai-interactive-topics/model_info/model_info_all"]
+CMD ["python", "app.py", "--model_dir", "model_info/model_info_all"]

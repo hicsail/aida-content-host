@@ -1,31 +1,44 @@
 version: "3.9"
 services:
-  client:
+  frontend:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      args:
+        - VITE_CHATBOT_URL=$VITE_CHATBOT_URL
+        - VITE_DB_API_URL=$VITE_DB_API_URL
     ports:
       - 3000:80
     depends_on:
-      - server
+      - backend-chatbot
+      - backend-digital-repo
     networks:
       - app-network
-    env_file:
-      - ./client/.env
 
-  server:
-    build:
-      context: ./servers/chatbot
-      dockerfile: Dockerfile
+  backend-chatbot:
+    build: ./servers/chatbot
     networks:
       - app-network
     env_file:
       - ./servers/chatbot/.env
 
+  backend-digital-repo:
+    build: ./servers/db-api
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    env_file:
+      - ./servers/db-api/.env
+
+  mongodb:
+    image: mongo:6
+    networks:
+      - app-network
+    volumes:
+      - mongodb-data:/data/db
+
   visualization:
-    build:
-      context: ./servers/visualization
-      dockerfile: Dockerfile
+    build: ./servers/visualization
     ports:
       - 3001:8092
     networks:
@@ -34,3 +47,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mongodb-data:
