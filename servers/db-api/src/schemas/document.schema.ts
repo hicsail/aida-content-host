@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class DocumentEntity extends Document {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   pdf_id: string;
 
   @Prop({ required: true })
@@ -24,7 +24,7 @@ export class DocumentEntity extends Document {
   @Prop({ required: true })
   link: string;
 
-  @Prop({ required: true})
+  @Prop({ required: false })
   date: string;
 }
 

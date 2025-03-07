@@ -9,43 +9,15 @@ export class DocumentController {
   async getAllDocuments(): Promise<any[]> {
     const documents = await this.documentService.findAll();
     return documents.map((doc) => ({
+      id: doc._id,
       pdf_id: doc.pdf_id,
       cluster: doc.category,
       title: doc.title,
       description: doc.processed_text,
       topic: doc.topic_label,
       keywords: doc.topic_keywords,
-      date: doc.date ? new Date(doc.date).toDateString() : "",
-    }));
-  }
-
-  @Get('id/:id')
-  async getDocumentById(@Param('id') id: string): Promise<any | null> {
-    const doc = await this.documentService.findById(id);
-    return doc
-      ? {
-          pdf_id: doc.pdf_id,
-          cluster: doc.category,
-          title: doc.title,
-          description: doc.processed_text,
-          topic: doc.topic_label,
-          keywords: doc.topic_keywords,
-          date: doc.date ? new Date(doc.date).toDateString() : "",
-        }
-      : null;
-  }
-
-  @Get('title/:title')
-  async getDocumentByTitle(@Param('title') title: string): Promise<any[]> {
-    const documents = await this.documentService.findByTitle(title);
-    return documents.map((doc) => ({
-      pdf_id: doc.pdf_id,
-      cluster: doc.category,
-      title: doc.title,
-      description: doc.processed_text,
-      topic: doc.topic_label,
-      keywords: doc.topic_keywords,
-      date: doc.date ? new Date(doc.date).toDateString() : "",
+      date: doc.date,
+      link: doc.link,
     }));
   }
 
@@ -61,22 +33,31 @@ export class DocumentController {
 
   @Post('query')
   async getDocumentsByQuery(
-    @Body() query: { cluster: string; topics: string[]; keywords: string[] },
+    @Body()
+    query: {
+      title: string;
+      cluster: string;
+      topics: string[];
+      keywords: string[];
+    },
   ): Promise<any[]> {
     const documents = await this.documentService.findByCombinedQuery(
-      query.cluster,
+      query.title.toLocaleLowerCase(),
+      query.cluster.toLocaleLowerCase(),
       query.topics,
       query.keywords,
     );
 
     return documents.map((doc) => ({
+      id: doc._id,
       pdf_id: doc.pdf_id,
       cluster: doc.category,
       title: doc.title,
       description: doc.processed_text,
       topic: doc.topic_label,
       keywords: doc.topic_keywords,
-      date: doc.date ? new Date(doc.date).toDateString() : "",
+      date: doc.date,
+      link: doc.link,
     }));
   }
 }
