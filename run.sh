@@ -21,19 +21,19 @@ case "$1" in
         ;;
     -d|--database)
         echo "Starting database service..."
-        docker-compose -f docker-compose-local.yml up -d --build mongodb
+        docker compose -f docker-compose-local.yml up -d --build mongodb
         ;;
     -f|--frontend)
         echo "Starting React frontend service..."
-        docker-compose -f docker-compose-local.yml up -d --build frontend backend-chatbot backend-digital-repo mongodb
+        docker compose -f docker-compose-local.yml up -d --build frontend backend-chatbot backend-digital-repo mongodb
         ;;
     -v|--visualization)
         echo "Starting visualization service..."
-        docker-compose -f docker-compose-local.yml up -d --build visualization
+        docker compose -f docker-compose-local.yml up -d --build visualization
         ;;
     -a|--all)
         echo "Starting all services..."
-        docker-compose -f docker-compose-local.yml up -d --build
+        docker compose -f docker-compose-local.yml up -d --build
         ;;
     *)
         echo "Invalid option: $1"
