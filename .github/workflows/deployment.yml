@@ -61,7 +61,6 @@ jobs:
           tags: hicsail/aida-backend-digital-repo:staging
           build-args: |
             MONGO_URI=${{ secrets.MONGO_URI }}
-            LOCAL_URI=${{ secrets.LOCAL_URI }}
 
   frontend:
     runs-on: ubuntu-latest

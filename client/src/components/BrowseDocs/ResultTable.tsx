@@ -10,26 +10,30 @@ import {
   MenuItem,
   Pagination,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import {
   StyledButton,
+  StyledMarkdown,
   TypographyBody,
-  TypographyExcerpt,
   TypographyH5,
+  TypographyLink,
 } from "../GeneralComponents";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { queryDocuments } from "../../utils/api";
 
 interface ResultTableProps {
-  filters: { cluster: string; topics: string[]; keywords: string[] };
+  filters: { title: string; cluster: string; topics: string[]; keywords: string[] };
 }
 
 export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
   const [documents, setDocuments] = useState<any[]>([]);
-  const [sortBy, setSortBy] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [expandedCards, setExpandedCards] = useState<{ [key: string]: boolean }>({});
+  const [sortBy, setSortBy] = useState<string>("title");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [page, setPage] = useState<number>(1);
 
@@ -45,29 +49,57 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
       : new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
+  const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    queryDocuments({ ...filters, title: e.target.value }).then(setDocuments);
+  };
+
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
+  const toggleExpand = (id: string) => {
+    setExpandedCards((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+  const MAX_LENGTH = 400;
+
   return (
     <>
+      <Box>
+        <TypographyBody textAlign="right" sx={{ mb: 1 }}>
+          Showing {Math.min((page - 1) * itemsPerPage + 1, documents.length)}-
+          {Math.min(page * itemsPerPage, documents.length)} of {documents.length} results
+        </TypographyBody>
+      </Box>
       <Box
         sx={{
           background: "white",
           border: "1px solid #dae4d8",
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
           mb: 2,
           px: 4,
           py: 3,
         }}
       >
-        <Box alignContent="center">
-          <TypographyBody>
-            Showing {Math.min((page - 1) * itemsPerPage + 1, documents.length)}-
-            {Math.min(page * itemsPerPage, documents.length)} of {documents.length} results
-          </TypographyBody>
-        </Box>
+        <TextField
+          label="Search Documents"
+          variant="outlined"
+          size="small"
+          value={searchQuery}
+          onChange={handleSearchQuery}
+          sx={{
+            width: "calc(100% - 316px)",
+            "& label.Mui-focused": { color: "#c00" },
+            "& .MuiOutlinedInput-root": {
+              "&.Mui-focused fieldset": {
+                borderColor: "#c00",
+              },
+            },
+          }}
+        />
         <Box sx={{ display: "flex", gap: 2, minWidth: 300 }}>
           <FormControl fullWidth sx={{ maxWidth: 120 }}>
             <InputLabel
@@ -82,6 +114,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
             <Select
               value={itemsPerPage}
               label="Items Per Page"
+              size="small"
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
               sx={{
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -109,6 +142,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
             <Select
               value={sortBy}
               label="Sort By"
+              size="small"
               onChange={(e) => setSortBy(e.target.value)}
               sx={{
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -129,7 +163,22 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
         <Card key={item.id} sx={{ mb: 2, p: 2 }}>
           <CardContent sx={{ textAlign: "left" }}>
             <TypographyH5>{item.title}</TypographyH5>
-            <TypographyExcerpt>{item.description}</TypographyExcerpt>
+            <Box sx={{ mb: 2 }}>
+              <StyledMarkdown>
+                {expandedCards[item.id] || item.description.length <= MAX_LENGTH
+                  ? item.description
+                  : `${item.description.substring(0, MAX_LENGTH)}... `}
+              </StyledMarkdown>
+              {item.description.length > MAX_LENGTH && (
+                <TypographyLink
+                  component="span"
+                  sx={{ ml: 1 }}
+                  onClick={() => toggleExpand(item.id)}
+                >
+                  {expandedCards[item.id] ? "View Less" : "View More"}
+                </TypographyLink>
+              )}
+            </Box>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>
               {item.keywords.map((keyword: string, index: number) => (
                 <Chip key={index} label={keyword} />
@@ -140,10 +189,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
             </Typography>
           </CardContent>
           <CardActions sx={{ justifyContent: "end" }}>
-            <StyledButton size="small" variant="outlined" href={item.sourceUrl} target="_blank">
-              Source URL
-            </StyledButton>
-            <StyledButton size="small" variant="contained">
+            <StyledButton size="small" variant="contained" href={item.link} target="_blank">
               Continue Reading
             </StyledButton>
           </CardActions>
@@ -154,7 +200,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
         count={Math.ceil(documents.length / itemsPerPage)}
         page={page}
         onChange={handlePageChange}
-        sx={{ mt: 2, display: "flex", justifyContent: "center" }}
+        sx={{ mt: 2, display: "flex", justifyContent: "center", height: 48 }}
       />
     </>
   );

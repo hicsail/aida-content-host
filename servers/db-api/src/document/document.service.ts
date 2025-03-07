@@ -14,10 +14,6 @@ export class DocumentService {
     return this.documentModel.find().exec();
   }
 
-  async findById(id: string): Promise<DocumentEntity | null> {
-    return this.documentModel.findOne({ document_id: id }).exec();
-  }
-
   async findByTitle(title: string): Promise<DocumentEntity[]> {
     return this.documentModel
       .find({
@@ -35,12 +31,16 @@ export class DocumentService {
   }
 
   async findByCombinedQuery(
+    title: string,
     category: string,
     topic_label: string[],
     topic_keywords: string[],
   ): Promise<DocumentEntity[]> {
     return this.documentModel
       .find({
+        $and: title.split(' ').map((word) => ({
+          title: { $regex: new RegExp(word, 'i') },
+        })),
         category,
         topic_label: { $in: topic_label },
         topic_keywords: { $in: topic_keywords },
@@ -51,5 +51,9 @@ export class DocumentService {
   async create(document: DocumentEntity): Promise<DocumentEntity> {
     const newDocument = new this.documentModel(document);
     return newDocument.save();
+  }
+
+  async clearAll(): Promise<void> {
+    await this.documentModel.deleteMany({}).exec();
   }
 }
