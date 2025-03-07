@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - v*
   pull_request:
     branches:
       - main
@@ -86,6 +88,7 @@ jobs:
           tags: hicsail/aida-frontend:staging
           build-args: |
             VITE_CHATBOT_URL=${{ secrets.VITE_CHATBOT_URL }}
+            VITE_DB_API_URL=${{ secrets.VITE_DB_API_URL }}
 
   visualization:
     runs-on: ubuntu-latest
