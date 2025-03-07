@@ -6,8 +6,13 @@ import { fetchKeywords, fetchTopics } from "../../utils/api";
 const clusters = ["All", "Business", "Education", "Government", "Others"];
 
 interface FilterPanelProps {
-  filters: { cluster: string; topics: string[]; keywords: string[] };
-  onFilterChange: (newFilters: { cluster: string; topics: string[]; keywords: string[] }) => void;
+  filters: { title: string; cluster: string; topics: string[]; keywords: string[] };
+  onFilterChange: (newFilters: {
+    title: string;
+    cluster: string;
+    topics: string[];
+    keywords: string[];
+  }) => void;
 }
 
 export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) => {
@@ -20,8 +25,13 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   }, []);
 
   const handleClusterChange = (cluster: string) => {
-    onFilterChange({ ...filters, cluster });
-    onFilterChange({ cluster, topics, keywords });
+    // onFilterChange({ ...filters, cluster });
+    // if non of the topics or keywords are selected, then select all
+    if (filters.topics.length === 0) {
+      onFilterChange({ ...filters, cluster, topics, keywords });
+    } else {
+      onFilterChange({ ...filters, cluster });
+    }
   };
 
   const handleCheckboxChange = (type: "topics" | "keywords", value: string) => {
@@ -33,9 +43,17 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   };
 
   return (
-    <Box sx={{ width: 300, px: 4, py: 2, border: "1px solid #dae4d8", background: "white" }}>
-      <TypographyH4 textAlign="left" sx={{ mb: 1 }}>
-        Document Clusters
+    <Box
+      sx={{
+        width: 300,
+        px: 4,
+        py: 2,
+        border: "1px solid #dae4d8",
+        background: "white",
+      }}
+    >
+      <TypographyH4 textAlign="left" sx={{ mb: 2 }}>
+        Category
       </TypographyH4>
       <Box display="flex" flexWrap="wrap" gap={1}>
         {clusters.map((option: string) => (
@@ -72,7 +90,10 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   />
                 }
                 label="All Topics"
-                sx={{ textAlign: "left", "& .MuiTypography-root": { fontSize: "0.875rem" } }}
+                sx={{
+                  textAlign: "left",
+                  "& .MuiTypography-root": { fontSize: "0.875rem" },
+                }}
               />
               {topics.map((topic) => (
                 <FormControlLabel
@@ -84,7 +105,10 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                     />
                   }
                   label={topic}
-                  sx={{ textAlign: "left", "& .MuiTypography-root": { fontSize: "0.875rem" } }}
+                  sx={{
+                    textAlign: "left",
+                    "& .MuiTypography-root": { fontSize: "0.875rem" },
+                  }}
                 />
               ))}
             </FormGroup>
@@ -112,7 +136,10 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   />
                 }
                 label="All Keywords"
-                sx={{ textAlign: "left", "& .MuiTypography-root": { fontSize: "0.875rem" } }}
+                sx={{
+                  textAlign: "left",
+                  "& .MuiTypography-root": { fontSize: "0.875rem" },
+                }}
               />
               {keywords.map((keyword) => (
                 <FormControlLabel
@@ -124,7 +151,10 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                     />
                   }
                   label={keyword}
-                  sx={{ textAlign: "left", "& .MuiTypography-root": { fontSize: "0.875rem" } }}
+                  sx={{
+                    textAlign: "left",
+                    "& .MuiTypography-root": { fontSize: "0.875rem" },
+                  }}
                 />
               ))}
             </FormGroup>

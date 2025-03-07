@@ -5,6 +5,7 @@ import { Box, Container } from "@mui/material";
 
 export const BrowseDocs: FC = () => {
   const [filters, setFilters] = useState({
+    title: "",
     cluster: "",
     topics: [] as string[],
     keywords: [] as string[],
@@ -20,21 +21,19 @@ export const BrowseDocs: FC = () => {
       disableGutters
       sx={{
         display: "flex",
-        height: "100vh",
-        overflow: "hidden",
         background: "#F4F6F8",
         gap: 2,
-        py: 2,
         pl: 2,
       }}
     >
       <Box
         sx={{
-          height: "100vh",
+          height: "calc(100vh - 32px)",
           position: "sticky",
           left: 0,
           top: 0,
           overflowY: "auto",
+          py: 2,
         }}
       >
         <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
@@ -45,6 +44,7 @@ export const BrowseDocs: FC = () => {
           overflowY: "auto",
           width: "860px",
           pr: 2,
+          py: 2,
         }}
       >
         <ResultTable filters={filters} />
