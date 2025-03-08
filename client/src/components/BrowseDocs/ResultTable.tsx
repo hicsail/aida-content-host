@@ -170,11 +170,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
                   : `${item.description.substring(0, MAX_LENGTH)}... `}
               </StyledMarkdown>
               {item.description.length > MAX_LENGTH && (
-                <TypographyLink
-                  component="span"
-                  sx={{ ml: 1 }}
-                  onClick={() => toggleExpand(item.id)}
-                >
+                <TypographyLink component="span" onClick={() => toggleExpand(item.id)}>
                   {expandedCards[item.id] ? "View Less" : "View More"}
                 </TypographyLink>
               )}

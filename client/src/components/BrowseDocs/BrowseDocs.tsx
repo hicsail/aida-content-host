@@ -28,12 +28,12 @@ export const BrowseDocs: FC = () => {
     >
       <Box
         sx={{
-          height: "calc(100vh - 32px)",
+          height: "calc(100vh - 80px)",
           position: "sticky",
           left: 0,
           top: 0,
           overflowY: "auto",
-          py: 2,
+          pt: 9,
         }}
       >
         <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
@@ -44,7 +44,7 @@ export const BrowseDocs: FC = () => {
           overflowY: "auto",
           width: "860px",
           pr: 2,
-          py: 2,
+          py: 9,
         }}
       >
         <ResultTable filters={filters} />
