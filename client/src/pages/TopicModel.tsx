@@ -12,7 +12,7 @@ export const TopicModel: FC = () => {
         height: "calc(100vh - 72px)",
         border: "none",
       }}
-      src={`import.meta.env.VITE_MODEL_URL}/${topic}`}
+      src={`${import.meta.env.VITE_MODEL_URL}/${topic}`}
     />
   );
 };
