@@ -1,0 +1,100 @@
+body {
+  color: #16191b;
+  background-color: rgb(244, 246, 248);
+  font-family: "Benton-Sans", "Helvetica", sans-serif;
+  font-size: clamp(1rem, calc(0.96rem + 0.21vw), 1.13rem);
+  padding: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.6em;
+  margin-top: 1em;
+}
+
+h3 {
+  font-size: clamp(1.73rem, calc(1.59rem + 0.78vw), 2.2rem);
+  font-weight: 600;
+}
+
+h5 {
+  font-size: clamp(1.2rem, calc(1.14rem + 0.34vw), 1.41rem);
+  font-weight: 600;
+}
+
+.topic-select-container {
+  background-color: white;
+  display: flex;
+  gap: 2rem;
+  align-items: stretch;
+
+  h5 {
+    margin-bottom: 1rem;
+  }
+
+  .select-control-area {
+    max-height: 720px;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+    padding: 0.25rem;
+  }
+
+  .select-control {
+    padding: 2rem;
+    flex: 0;
+    white-space: nowrap;
+  }
+
+  .select-plot {
+    flex: 1;
+  }
+
+  .radio-item {
+    width: auto;
+  }
+}
+
+.cluster-descriptions {
+  background-color: white;
+  padding: 2rem;
+}
+
+.radio-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.radio-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.selected {
+  background-color: maroon !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid #c00;
+  color: #c00;
+  font-family: "Benton-Sans", "Helvetica", sans-serif;
+  font-size: clamp(1rem, calc(0.96rem + 0.21vw), 1.13rem);
+  padding: 8px 16px;
+  transition: background-color 125ms ease-in-out, color 125ms ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: maroon;
+    color: white;
+  }
+}
