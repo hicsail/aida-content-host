@@ -4,6 +4,7 @@ import "./App.css";
 import { Chatbot } from "./components/ChatBot";
 import { BrowseDocs } from "./components/BrowseDocs/BrowseDocs";
 import { RootLayout } from "./pages/Root";
+import { TopicModel } from "./pages/TopicModel";
 
 function App() {
   // const SecuredChatBot = withEmbedding(Chatbot);
@@ -15,6 +16,7 @@ function App() {
         <Route path="chat" element={<Chatbot />} />
         <Route path="/" element={<RootLayout />}>
           <Route path="browse" element={<BrowseDocs />} />
+          <Route path="topic-model/:topic" element={<TopicModel />} />
         </Route>
       </Routes>
     </BrowserRouter>

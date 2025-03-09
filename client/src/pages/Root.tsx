@@ -30,6 +30,11 @@ export const RootLayout: FC = () => {
     setOpen(false);
   };
 
+  const handleSelect = (path: string) => {
+    navigate(`topic-model/${path}`);
+    setOpen(false);
+  };
+
   return (
     <>
       <AppBar
@@ -47,6 +52,7 @@ export const RootLayout: FC = () => {
                 size="small"
                 variant="contained"
                 sx={{ boxShadow: "none" }}
+                onClick={() => navigate("/browse")}
               >
                 Digital Repository
               </StyledButton>
@@ -78,19 +84,11 @@ export const RootLayout: FC = () => {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList autoFocusItem={open} onKeyDown={() => console.log("key down")}>
-                          <MenuItem onClick={() => navigate("/topic-modeling/all")}>All</MenuItem>
-                          <MenuItem onClick={() => navigate("/topic-modeling/business")}>
-                            Business
-                          </MenuItem>
-                          <MenuItem onClick={() => navigate("/topic-modeling/education")}>
-                            Education
-                          </MenuItem>
-                          <MenuItem onClick={() => navigate("/topic-modeling/government")}>
-                            Government
-                          </MenuItem>
-                          <MenuItem onClick={() => navigate("/topic-modeling/others")}>
-                            Others
-                          </MenuItem>
+                          <MenuItem onClick={() => handleSelect("all")}>All</MenuItem>
+                          <MenuItem onClick={() => handleSelect("business")}>Business</MenuItem>
+                          <MenuItem onClick={() => handleSelect("education")}>Education</MenuItem>
+                          <MenuItem onClick={() => handleSelect("government")}>Government</MenuItem>
+                          <MenuItem onClick={() => handleSelect("others")}>Others</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>

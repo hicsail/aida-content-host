@@ -6,11 +6,13 @@ services:
       args:
         - VITE_CHATBOT_URL=$VITE_CHATBOT_URL
         - VITE_DB_API_URL=$VITE_DB_API_URL
+        - VITE_MODEL_URL=$VITE_MODEL_URL
     ports:
       - 3000:80
     depends_on:
       - backend-chatbot
       - backend-digital-repo
+      - visualization
     networks:
       - app-network
 

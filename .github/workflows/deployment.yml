@@ -4,7 +4,7 @@ on:
     branches:
       - main
     tags:
-      - v*
+      - v*.*
   pull_request:
     branches:
       - main
@@ -30,12 +30,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Image Tag
+        id: set_tag
+        run: echo "IMAGE_TAG=${{ github.ref_type == 'tag' && github.ref_name || 'staging' }}" >> $GITHUB_ENV
+
       - name: Build & Push Docker Staging Build
         uses: docker/build-push-action@v5
         with:
           context: ./servers/chatbot
           push: ${{ github.event_name != 'pull_request' }}
-          tags: hicsail/aida-backend-chatbot:staging
+          tags: hicsail/aida-backend-chatbot:${{ env.IMAGE_TAG }}
           build-args: |
             OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
 
@@ -55,12 +59,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Image Tag
+        id: set_tag
+        run: echo "IMAGE_TAG=${{ github.ref_type == 'tag' && github.ref_name || 'staging' }}" >> $GITHUB_ENV
+
       - name: Build & Push Docker Staging Build
         uses: docker/build-push-action@v5
         with:
           context: ./servers/db-api
           push: ${{ github.event_name != 'pull_request' }}
-          tags: hicsail/aida-backend-digital-repo:staging
+          tags: hicsail/aida-backend-digital-repo:${{ env.IMAGE_TAG }}
           build-args: |
             MONGO_URI=${{ secrets.MONGO_URI }}
 
@@ -80,15 +88,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Image Tag
+        id: set_tag
+        run: echo "IMAGE_TAG=${{ github.ref_type == 'tag' && github.ref_name || 'staging' }}" >> $GITHUB_ENV
+
       - name: Build & Push Docker Staging Build
         uses: docker/build-push-action@v5
         with:
           context: ./client
           push: ${{ github.event_name != 'pull_request' }}
-          tags: hicsail/aida-frontend:staging
+          tags: hicsail/aida-frontend:${{ env.IMAGE_TAG }}
           build-args: |
             VITE_CHATBOT_URL=${{ secrets.VITE_CHATBOT_URL }}
             VITE_DB_API_URL=${{ secrets.VITE_DB_API_URL }}
+            VITE_MODEL_URL=${{ secrets.VITE_MODEL_URL }}
 
   visualization:
     runs-on: ubuntu-latest
@@ -110,9 +123,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Image Tag
+        id: set_tag
+        run: echo "IMAGE_TAG=${{ github.ref_type == 'tag' && github.ref_name || 'staging' }}" >> $GITHUB_ENV
+
       - name: Build & Push Docker Staging Build
         uses: docker/build-push-action@v5
         with:
           context: ./servers/visualization
           push: ${{ github.event_name != 'pull_request' }}
-          tags: hicsail/aida-visualization:staging
+          tags: hicsail/aida-visualization:${{ env.IMAGE_TAG }}

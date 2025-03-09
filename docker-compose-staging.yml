@@ -9,6 +9,7 @@ services:
     depends_on:
       - backend-chatbot
       - backend-digital-repo
+      - visualization
     networks:
       - app-network
 
@@ -37,7 +38,7 @@ services:
     image: hicsail/aida-visualization:staging
     build: ./servers/visualization
     ports:
-      - 3023:8092
+      - 3023:5001
     networks:
       - app-network
 
