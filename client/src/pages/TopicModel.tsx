@@ -4,6 +4,8 @@ import { useParams } from "react-router";
 export const TopicModel: FC = () => {
   const { topic } = useParams();
 
+  console.log(`iFrame URL: ${import.meta.env.VITE_MODEL_URL}/${topic}`);
+
   return (
     <iframe
       style={{
