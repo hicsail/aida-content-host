@@ -213,4 +213,4 @@ create_dash_app("model_info/model_info_government", "government")
 create_dash_app("model_info/model_info_others", "others")
 
 if __name__ == "__main__":
-    server.run(debug=True, host="0.0.0.0", port=5001)
+    server.run(host="0.0.0.0", port=5001)
