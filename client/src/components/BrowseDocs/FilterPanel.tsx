@@ -20,8 +20,13 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   const [keywords, setKeywords] = useState<string[]>([]);
 
   useEffect(() => {
-    fetchTopics(filters.cluster).then(setTopics);
-    fetchKeywords(filters.cluster).then(setKeywords);
+    fetchTopics("All").then((allTopics) => {
+      fetchKeywords("All").then((allKeywords) => {
+        setTopics(allTopics);
+        setKeywords(allKeywords);
+        onFilterChange({ ...filters, topics: allTopics, keywords: allKeywords });
+      });
+    });
   }, []);
 
   useEffect(() => {
