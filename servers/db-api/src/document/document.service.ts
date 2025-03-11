@@ -22,12 +22,16 @@ export class DocumentService {
       .exec();
   }
 
-  async findAllTopics(): Promise<string[]> {
-    return this.documentModel.distinct('topic_label').exec();
+  async findTopicsByCluster(category: string): Promise<string[]> {
+    return this.documentModel.distinct('topic_label', {
+      category,
+    });
   }
 
-  async findAllKeywords(): Promise<string[]> {
-    return this.documentModel.distinct('topic_keywords').exec();
+  async findKeywordsByCluster(category: string): Promise<string[]> {
+    return this.documentModel.distinct('topic_keywords', {
+      category,
+    });
   }
 
   async findByCombinedQuery(

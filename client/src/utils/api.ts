@@ -17,12 +17,12 @@ export const queryDocuments = async (filters: {
   return response.json();
 };
 
-export const fetchTopics = async () => {
-  const response = await fetch(`${import.meta.env.VITE_DB_API_URL}/documents/topics`);
+export const fetchTopics = async (cluster: string) => {
+  const response = await fetch(`${import.meta.env.VITE_DB_API_URL}/documents/topics/${cluster}`);
   return response.json();
 };
 
-export const fetchKeywords = async () => {
-  const response = await fetch(`${import.meta.env.VITE_DB_API_URL}/documents/keywords`);
+export const fetchKeywords = async (cluster: string) => {
+  const response = await fetch(`${import.meta.env.VITE_DB_API_URL}/documents/keywords/${cluster}`);
   return response.json();
 };

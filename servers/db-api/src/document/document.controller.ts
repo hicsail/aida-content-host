@@ -21,14 +21,22 @@ export class DocumentController {
     }));
   }
 
-  @Get('topics')
-  async getAllTopics(): Promise<string[]> {
-    return await this.documentService.findAllTopics();
+  @Get('topics/:cluster')
+  async getTopicsByCluster(
+    @Param('cluster') cluster: string,
+  ): Promise<string[]> {
+    return this.documentService.findTopicsByCluster(
+      cluster.toLocaleLowerCase(),
+    );
   }
 
-  @Get('keywords')
-  async getAllKeywords(): Promise<string[]> {
-    return this.documentService.findAllKeywords();
+  @Get('keywords/:cluster')
+  async getKeywordsByCluster(
+    @Param('cluster') cluster: string,
+  ): Promise<string[]> {
+    return this.documentService.findKeywordsByCluster(
+      cluster.toLocaleLowerCase(),
+    );
   }
 
   @Post('query')
