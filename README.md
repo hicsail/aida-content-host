@@ -39,10 +39,16 @@ sh run.sh -a
 
 Alternatively, to start specific services:
 
-- Chatbot Only
+- Databse (MongoDB) Only:
 
   ```
-  sh run.sh -c
+  sh run.sh -d
+  ```
+
+- Frontend Only (including chatbot and digital repository):
+
+  ```
+  sh run.sh -f
   ```
 
 - Visualization Only:
@@ -55,7 +61,7 @@ Alternatively, to start specific services:
 
 Once Docker services are running, open the following URLs in your browser:
 
-- Chatbot: http://localhost:3000
+- Frontend: http://localhost:3000
 - Visualization: http://localhost:3001
 
 If you need to shutdown the App, use:
