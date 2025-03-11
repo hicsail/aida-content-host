@@ -35,11 +35,16 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   }, [filters]);
 
   const handleClusterChange = (cluster: string) => {
-    if (filters.topics.length === 0) {
-      onFilterChange({ ...filters, cluster, topics, keywords });
-    } else {
-      onFilterChange({ ...filters, cluster });
-    }
+    fetchTopics(cluster).then((allTopics) => {
+      fetchKeywords(cluster).then((allKeywords) => {
+        onFilterChange({
+          ...filters,
+          cluster,
+          topics: allTopics,
+          keywords: allKeywords,
+        });
+      });
+    });
   };
 
   const handleCheckboxChange = (type: "topics" | "keywords", value: string) => {
