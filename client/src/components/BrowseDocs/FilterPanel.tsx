@@ -20,18 +20,36 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   const [keywords, setKeywords] = useState<string[]>([]);
 
   useEffect(() => {
-    fetchTopics().then(setTopics);
-    fetchKeywords().then(setKeywords);
+    fetchTopics("All").then((allTopics) => {
+      fetchKeywords("All").then((allKeywords) => {
+        setTopics(allTopics);
+        setKeywords(allKeywords);
+        onFilterChange({ ...filters, topics: allTopics, keywords: allKeywords });
+      });
+    });
   }, []);
 
+  useEffect(() => {
+    fetchTopics(filters.cluster).then((allTopics) => {
+      setTopics(allTopics);
+    });
+
+    fetchKeywords(filters.cluster).then((allKeywords) => {
+      setKeywords(allKeywords);
+    });
+  }, [filters]);
+
   const handleClusterChange = (cluster: string) => {
-    // onFilterChange({ ...filters, cluster });
-    // if non of the topics or keywords are selected, then select all
-    if (filters.topics.length === 0) {
-      onFilterChange({ ...filters, cluster, topics, keywords });
-    } else {
-      onFilterChange({ ...filters, cluster });
-    }
+    fetchTopics(cluster).then((allTopics) => {
+      fetchKeywords(cluster).then((allKeywords) => {
+        onFilterChange({
+          ...filters,
+          cluster,
+          topics: allTopics,
+          keywords: allKeywords,
+        });
+      });
+    });
   };
 
   const handleCheckboxChange = (type: "topics" | "keywords", value: string) => {
