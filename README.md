@@ -15,7 +15,8 @@ cd aida-content-host
 
 Update the environment files with the required configurations:
 
-- Navigate to `./client` and change `.env-example` to `.env` (you don't need to change the `VITE_CHATBOT_URL` value)
+- At root directory, change `.env-example` to `.env` (you don't need to change any values)
+- Navigate to `./server/db-api` and chage `.env-example` to `.env` (you don't need to change the value)
 - Navigate to `./server/chatbot` and chage `.env-example` to `.env`, and update the `OPENAI_API_KEY` value to your actual API key
 
 ### 3. Ensure Docker is Running
@@ -50,15 +51,17 @@ Alternatively, to start specific services:
   sh run.sh -v
   ```
 
-### 5. Access teh Application
+### 5. Access the Application
 
 Once Docker services are running, open the following URLs in your browser:
 
 - Chatbot: http://localhost:3000
 - Visualization: http://localhost:3001
 
-If you need to stop the running containers, use:
+If you need to shutdown the App, use:
 
 ```
-docker compose -f docker-compose-local.yml down
+sh shutdown.sh
 ```
+
+_Note: This command will also prune all volumes. If you wish not to do this, you have to run `docker compose -f docker-compose-local.yml down` yourself._
