@@ -11,14 +11,6 @@ from utils import *
 
 server = Flask(__name__)
 
-@server.after_request
-def add_security_headers(response):
-    response.headers.pop("X-Frame-Options", None)
-    response.headers["X-Frame-Options"] = "ALLOWALL"
-    response.headers["Content-Security-Policy"] = "frame-ancestors *"
-    return response
-
-
 dash_app = {}
 
 def create_dash_app(model_directory, route_path):
@@ -221,4 +213,4 @@ create_dash_app("model_info/model_info_government", "government")
 create_dash_app("model_info/model_info_others", "others")
 
 if __name__ == "__main__":
-    server.run(debug=True, host="0.0.0.0", port=5001)
+    server.run(host="0.0.0.0", port=5001)

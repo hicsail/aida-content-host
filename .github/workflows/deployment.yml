@@ -41,7 +41,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: hicsail/aida-backend-chatbot:${{ env.IMAGE_TAG }}
           build-args: |
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            OPENAI_API_KEY=${{ github.ref_type == 'tag' && secrets.OPENAI_API_KEY || secrets.OPENAI_API_KEY_STAGING }}
 
   backend-digital-repo:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: hicsail/aida-backend-digital-repo:${{ env.IMAGE_TAG }}
           build-args: |
-            MONGO_URI=${{ secrets.MONGO_URI }}
+            MONGO_URI=${{ github.ref_type == 'tag' && secrets.MONGO_URI || secrets.MONGO_URI_STAGING }}
 
   frontend:
     runs-on: ubuntu-latest
@@ -99,9 +99,9 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: hicsail/aida-frontend:${{ env.IMAGE_TAG }}
           build-args: |
-            VITE_CHATBOT_URL=${{ secrets.VITE_CHATBOT_URL }}
-            VITE_DB_API_URL=${{ secrets.VITE_DB_API_URL }}
-            VITE_MODEL_URL=${{ secrets.VITE_MODEL_URL }}
+            VITE_CHATBOT_URL=${{  github.ref_type == 'tag' && secrets.VITE_CHATBOT_URL || secrets.VITE_CHATBOT_URL_STAGING }}
+            VITE_DB_API_URL=${{  github.ref_type == 'tag' && secrets.VITE_DB_API_URL || secrets.VITE_DB_API_URL_STAGING }}
+            VITE_MODEL_URL=${{  github.ref_type == 'tag' && secrets.VITE_MODEL_URL || secrets.VITE_MODEL_URL_STAGING }}
 
   visualization:
     runs-on: ubuntu-latest
