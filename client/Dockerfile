@@ -7,10 +7,6 @@ WORKDIR /app
 # Copy package.json and package-lock.json to install dependencies
 COPY package.json ./
 
-# Set the environment variable for the backend URL
-ARG VITE_CHATBOT_URL
-ENV VITE_CHATBOT_URL=${VITE_CHATBOT_URL}
-
 ARG VITE_DB_API_URL
 ENV VITE_DB_API_URL=${VITE_DB_API_URL}
 
