@@ -13,12 +13,6 @@ services:
     networks:
       - app-network
 
-  backend-chatbot:
-    image: hicsail/aida-backend-chatbot:staging
-    build: ./servers/chatbot
-    networks:
-      - app-network
-
   backend-digital-repo:
     image: hicsail/aida-backend-digital-repo:staging
     build: ./servers/db-api

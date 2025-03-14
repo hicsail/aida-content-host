@@ -10,18 +10,10 @@ services:
     ports:
       - 3000:80
     depends_on:
-      - backend-chatbot
       - backend-digital-repo
       - visualization
     networks:
       - app-network
-
-  backend-chatbot:
-    build: ./servers/chatbot
-    networks:
-      - app-network
-    env_file:
-      - ./servers/chatbot/.env
 
   backend-digital-repo:
     build: ./servers/db-api
