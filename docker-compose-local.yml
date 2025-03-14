@@ -4,7 +4,6 @@ services:
     build:
       context: ./client
       args:
-        - VITE_CHATBOT_URL=$VITE_CHATBOT_URL
         - VITE_DB_API_URL=$VITE_DB_API_URL
         - VITE_MODEL_URL=$VITE_MODEL_URL
     ports:
