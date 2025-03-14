@@ -7,7 +7,6 @@ services:
     ports:
       - 3022:80
     depends_on:
-      - backend-chatbot
       - backend-digital-repo
       - visualization
     networks:
