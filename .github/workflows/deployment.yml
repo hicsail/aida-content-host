@@ -101,7 +101,7 @@ jobs:
           tags: hicsail/aida-visualization:${{ env.IMAGE_TAG }}
 
   deployment:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs: [backend-digital-repo, frontend, visualization]
     steps:
