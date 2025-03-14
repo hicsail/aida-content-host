@@ -1,6 +1,3 @@
-[submodule "servers/chatbot/cmac_arg"]
-	path = servers/chatbot/cmac_arg
-	url = https://github.com/samosborn/cmac_arg.git
 [submodule "servers/visualization/genai-interactive-topics"]
 	path = servers/visualization/genai-interactive-topics
 	url = https://github.com/Zhengyang49/genai-interactive-topics.git

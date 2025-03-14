@@ -12,11 +12,6 @@ services:
     networks:
       - app-network
 
-  backend-chatbot:
-    image: hicsail/aida-backend-chatbot:[VERSION]
-    networks:
-      - app-network
-
   backend-digital-repo:
     image: hicsail/aida-backend-digital-repo:[VERSION]
     depends_on:

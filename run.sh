@@ -5,7 +5,7 @@ usage() {
     echo "Options:"
     echo "  -h, --help              Display this help message"
     echo "  -d, --database          Run MongoDB service only"
-    echo "  -f, --frontend          Run React frontend service only"
+    echo "  -f, --frontend          Run digital repository service only"
     echo "  -v, --visualization     Run visualization service only"
     echo "  -a, --all               Run all services"
     exit 1
@@ -24,8 +24,8 @@ case "$1" in
         docker compose -f docker-compose-local.yml up -d --build mongodb
         ;;
     -f|--frontend)
-        echo "Starting React frontend service..."
-        docker compose -f docker-compose-local.yml up -d --build frontend backend-chatbot backend-digital-repo mongodb
+        echo "Starting digital repository service..."
+        docker compose -f docker-compose-local.yml up -d --build frontend backend backend-digital-repo mongodb
         ;;
     -v|--visualization)
         echo "Starting visualization service..."
