@@ -17,7 +17,6 @@ Update the environment files with the required configurations:
 
 - At root directory, change `.env-example` to `.env` (you don't need to change any values)
 - Navigate to `./server/db-api` and chage `.env-example` to `.env` (you don't need to change the value)
-- Navigate to `./server/chatbot` and chage `.env-example` to `.env`, and update the `OPENAI_API_KEY` value to your actual API key
 
 ### 3. Ensure Docker is Running
 
@@ -45,7 +44,7 @@ Alternatively, to start specific services:
   sh run.sh -d
   ```
 
-- Frontend Only (including chatbot and digital repository):
+- Digital Repository Only:
 
   ```
   sh run.sh -f
