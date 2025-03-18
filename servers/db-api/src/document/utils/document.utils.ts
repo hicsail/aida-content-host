@@ -3,9 +3,14 @@ import { CombinedDocuments } from '../types/CombinedDocuments';
 
 export const combineResults = (
   documents: DocumentEntity[],
+  skipUnknown = true,
 ): CombinedDocuments[] => {
   const combinedDocs: CombinedDocuments[] = [];
   documents.forEach((doc) => {
+    if (skipUnknown && doc.title === 'unknown') {
+      return;
+    }
+
     const existingDoc = combinedDocs.find(
       (combinedDoc) => combinedDoc.pdf_id === doc.pdf_id,
     );

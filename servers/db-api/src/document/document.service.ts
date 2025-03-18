@@ -27,8 +27,8 @@ export class DocumentService {
       andConditions.push(
         ...words.map((word) => ({
           $or: [
-            { title: { $regex: new RegExp(`\\b${word}\\b`, 'i') } },
-            { description: { $regex: new RegExp(`\\b${word}\\b`, 'i') } },
+            { title: { $regex: new RegExp(`\\b${word}`, 'i') } },
+            { description: { $regex: new RegExp(`\\b${word}`, 'i') } },
           ],
         })),
       );
