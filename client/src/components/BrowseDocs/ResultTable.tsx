@@ -25,7 +25,7 @@ import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { queryDocuments } from "../../utils/api";
 
 interface ResultTableProps {
-  filters: { title: string; cluster: string; topics: string[]; keywords: string[] };
+  filters: { title: string; category: string; topics: string[]; keywords: string[] };
 }
 
 export const ResultTable: FC<ResultTableProps> = ({ filters }) => {

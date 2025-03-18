@@ -6,7 +6,7 @@ import { Box, Container } from "@mui/material";
 export const BrowseDocs: FC = () => {
   const [filters, setFilters] = useState({
     title: "",
-    cluster: "All",
+    category: "All",
     topics: [] as string[],
     keywords: [] as string[],
   });
