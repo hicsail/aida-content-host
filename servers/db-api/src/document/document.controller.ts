@@ -32,14 +32,14 @@ export class DocumentController {
   async getDocumentsByQuery(
     @Body()
     query: {
-      title: string;
+      search: string;
       category: string;
       topics: string[];
       keywords: string[];
     },
   ): Promise<any[]> {
     return this.documentService.findDocuments({
-      title: query.title.toLocaleLowerCase(),
+      search: query.search.toLocaleLowerCase(),
       category: query.category.toLocaleLowerCase(),
       topic_label: query.topics,
       topic_keywords: query.keywords,

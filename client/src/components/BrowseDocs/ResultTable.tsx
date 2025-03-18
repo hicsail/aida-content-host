@@ -29,7 +29,7 @@ interface CombinedDocuments {
 }
 
 interface ResultTableProps {
-  filters: { title: string; category: string; topics: string[]; keywords: string[] };
+  filters: { search: string; category: string; topics: string[]; keywords: string[] };
 }
 
 export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
@@ -55,7 +55,8 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
 
   const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    queryDocuments({ ...filters, title: e.target.value }).then(setDocuments);
+    queryDocuments({ ...filters, search: e.target.value }).then(setDocuments);
+    setPage(1);
   };
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {

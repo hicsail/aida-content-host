@@ -6,9 +6,9 @@ import { fetchKeywords, fetchTopics } from "../../utils/api";
 const clusters = ["All", "Business", "Education", "Government", "Others"];
 
 interface FilterPanelProps {
-  filters: { title: string; category: string; topics: string[]; keywords: string[] };
+  filters: { search: string; category: string; topics: string[]; keywords: string[] };
   onFilterChange: (newFilters: {
-    title: string;
+    search: string;
     category: string;
     topics: string[];
     keywords: string[];

@@ -13,7 +13,7 @@ export class DocumentService {
   ) {}
 
   async findDocuments(filters: {
-    title?: string;
+    search?: string;
     category?: string;
     topic_label?: string[];
     topic_keywords?: string[];
@@ -21,10 +21,15 @@ export class DocumentService {
     const query: any = {};
     const andConditions: any[] = [];
 
-    if (filters.title) {
+    if (filters.search) {
+      const words = filters.search.split(/\s+/).filter(Boolean);
+
       andConditions.push(
-        ...filters.title.split(' ').map((word) => ({
-          title: { $regex: new RegExp(word, 'i') },
+        ...words.map((word) => ({
+          $or: [
+            { title: { $regex: new RegExp(`\\b${word}\\b`, 'i') } },
+            { description: { $regex: new RegExp(`\\b${word}\\b`, 'i') } },
+          ],
         })),
       );
     }
