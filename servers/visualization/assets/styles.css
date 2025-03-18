@@ -32,19 +32,11 @@ h5 {
   display: flex;
   flex-wrap: wrap;
   background-color: white;
-  gap: 1rem;
   align-items: stretch;
   justify-content: space-between;
 
   h5 {
     margin-bottom: 1rem;
-  }
-
-  .select-control-area {
-    max-height: 720px;
-    overflow-y: auto;
-    margin-bottom: 2rem;
-    padding: 0.25rem;
   }
 
   .select-control {
@@ -53,6 +45,31 @@ h5 {
     white-space: nowrap;
     flex-direction: column;
     align-items: flex-start;
+
+    .select-control-area {
+      max-height: 720px;
+      overflow-y: auto;
+      margin-bottom: 2rem;
+      padding: 0.25rem;
+
+      .radio-item {
+        display: block;
+        width: auto;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .radio-item:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+
+      .selected {
+        background-color: maroon !important;
+        color: white !important;
+        font-weight: bold;
+      }
+    }
   }
 
   .select-plot {
@@ -60,33 +77,11 @@ h5 {
     flex: 1 1 50%;
     padding: 2rem 1rem;
   }
-
-  .radio-item {
-    width: auto;
-  }
 }
 
 .cluster-descriptions {
   background-color: white;
   padding: 2rem;
-}
-
-.radio-item {
-  display: block;
-  width: 100%;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.radio-item:hover {
-  background-color: rgba(0, 0, 0, 0.08);
-}
-
-.selected {
-  background-color: maroon !important;
-  color: white !important;
-  font-weight: bold;
 }
 
 #term-bar-chart {
