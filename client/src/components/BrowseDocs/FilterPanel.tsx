@@ -109,6 +109,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                 }
                 label="All Topics"
                 sx={{
+                  color: "#213547",
                   textAlign: "left",
                   "& .MuiTypography-root": { fontSize: "0.875rem" },
                 }}
@@ -124,6 +125,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   }
                   label={topic}
                   sx={{
+                    color: "#213547",
                     textAlign: "left",
                     "& .MuiTypography-root": { fontSize: "0.875rem" },
                   }}
@@ -155,6 +157,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                 }
                 label="All Keywords"
                 sx={{
+                  color: "#213547",
                   textAlign: "left",
                   "& .MuiTypography-root": { fontSize: "0.875rem" },
                 }}
@@ -170,6 +173,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   }
                   label={keyword}
                   sx={{
+                    color: "#213547",
                     textAlign: "left",
                     "& .MuiTypography-root": { fontSize: "0.875rem" },
                   }}
