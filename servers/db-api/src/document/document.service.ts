@@ -10,16 +10,46 @@ export class DocumentService {
     private documentModel: Model<DocumentEntity>,
   ) {}
 
-  async findAll(): Promise<DocumentEntity[]> {
-    return this.documentModel.find().exec();
-  }
+  async findDocuments(filters: {
+    title?: string;
+    category?: string;
+    topic_label?: string[];
+    topic_keywords?: string[];
+  }): Promise<DocumentEntity[]> {
+    const query: any = {};
 
-  async findByTitle(title: string): Promise<DocumentEntity[]> {
-    return this.documentModel
-      .find({
-        title: { $regex: new RegExp(title, 'i') },
-      })
-      .exec();
+    if (filters.title) {
+      query.$and = filters.title.split(' ').map((word) => ({
+        title: { $regex: new RegExp(word, 'i') },
+      }));
+    }
+
+    const andConditions: any[] = [];
+
+    if (query.$and) {
+      andConditions.push(...query.$and);
+    }
+
+    if (filters.category) {
+      andConditions.push({ category: filters.category });
+    }
+
+    if (filters.topic_label && filters.topic_label.length > 0) {
+      andConditions.push({ topic_label: { $in: filters.topic_label } });
+    } else {
+      andConditions.push({ topic_label: { $eq: null } });
+    }
+    if (filters.topic_keywords && filters.topic_keywords.length > 0) {
+      andConditions.push({ topic_keywords: { $in: filters.topic_keywords } });
+    } else {
+      andConditions.push({ topic_keywords: { $eq: null } });
+    }
+
+    if (andConditions.length > 0) {
+      query.$and = andConditions;
+    }
+
+    return this.documentModel.find(query).exec();
   }
 
   async findTopicsByCluster(category: string): Promise<string[]> {
@@ -32,24 +62,6 @@ export class DocumentService {
     return this.documentModel.distinct('topic_keywords', {
       category,
     });
-  }
-
-  async findByCombinedQuery(
-    title: string,
-    category: string,
-    topic_label: string[],
-    topic_keywords: string[],
-  ): Promise<DocumentEntity[]> {
-    return this.documentModel
-      .find({
-        $and: title.split(' ').map((word) => ({
-          title: { $regex: new RegExp(word, 'i') },
-        })),
-        category,
-        topic_label: { $in: topic_label },
-        topic_keywords: { $in: topic_keywords },
-      })
-      .exec();
   }
 
   async create(document: DocumentEntity): Promise<DocumentEntity> {

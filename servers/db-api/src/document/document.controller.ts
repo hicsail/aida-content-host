@@ -7,7 +7,7 @@ export class DocumentController {
 
   @Get()
   async getAllDocuments(): Promise<any[]> {
-    const documents = await this.documentService.findAll();
+    const documents = await this.documentService.findDocuments({});
     return documents.map((doc) => ({
       id: doc._id,
       pdf_id: doc.pdf_id,
@@ -49,12 +49,12 @@ export class DocumentController {
       keywords: string[];
     },
   ): Promise<any[]> {
-    const documents = await this.documentService.findByCombinedQuery(
-      query.title.toLocaleLowerCase(),
-      query.cluster.toLocaleLowerCase(),
-      query.topics,
-      query.keywords,
-    );
+    const documents = await this.documentService.findDocuments({
+      title: query.title.toLocaleLowerCase(),
+      category: query.cluster.toLocaleLowerCase(),
+      topic_label: query.topics,
+      topic_keywords: query.keywords,
+    });
 
     return documents.map((doc) => ({
       id: doc._id,
