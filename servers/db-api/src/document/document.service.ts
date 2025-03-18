@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DocumentEntity } from '../schemas/document.schema';
+import { combineResults } from './utils/document.utils';
+import { CombinedDocuments } from './types/CombinedDocuments';
 
 @Injectable()
 export class DocumentService {
@@ -10,16 +12,56 @@ export class DocumentService {
     private documentModel: Model<DocumentEntity>,
   ) {}
 
-  async findAll(): Promise<DocumentEntity[]> {
-    return this.documentModel.find().exec();
-  }
+  async findDocuments(filters: {
+    search?: string;
+    category?: string;
+    topic_label?: string[];
+    topic_keywords?: string[];
+  }): Promise<CombinedDocuments[]> {
+    const query: any = {};
+    const andConditions: any[] = [];
 
-  async findByTitle(title: string): Promise<DocumentEntity[]> {
-    return this.documentModel
-      .find({
-        title: { $regex: new RegExp(title, 'i') },
-      })
-      .exec();
+    if (filters.search) {
+      const words = filters.search.split(/\s+/).filter(Boolean);
+
+      andConditions.push(
+        ...words.map((word) => ({
+          $or: [
+            { title: { $regex: new RegExp(`\\b${word}`, 'i') } },
+            { description: { $regex: new RegExp(`\\b${word}`, 'i') } },
+          ],
+        })),
+      );
+    }
+
+    if (filters.category) {
+      andConditions.push({ category: filters.category });
+    }
+
+    if (filters.topic_label && filters.topic_label.length > 0) {
+      andConditions.push({ topic_label: { $in: filters.topic_label } });
+    } else {
+      andConditions.push({
+        $or: [{ topic_label: { $exists: false } }, { topic_label: '' }],
+      });
+    }
+
+    if (filters.topic_keywords && filters.topic_keywords.length > 0) {
+      andConditions.push({ topic_keywords: { $in: filters.topic_keywords } });
+    } else {
+      andConditions.push({
+        $or: [
+          { topic_keywords: { $exists: false } },
+          { topic_keywords: { $size: 0 } },
+        ],
+      });
+    }
+
+    if (andConditions.length > 0) {
+      query.$and = andConditions;
+    }
+
+    return combineResults(await this.documentModel.find(query).exec());
   }
 
   async findTopicsByCluster(category: string): Promise<string[]> {
@@ -32,24 +74,6 @@ export class DocumentService {
     return this.documentModel.distinct('topic_keywords', {
       category,
     });
-  }
-
-  async findByCombinedQuery(
-    title: string,
-    category: string,
-    topic_label: string[],
-    topic_keywords: string[],
-  ): Promise<DocumentEntity[]> {
-    return this.documentModel
-      .find({
-        $and: title.split(' ').map((word) => ({
-          title: { $regex: new RegExp(word, 'i') },
-        })),
-        category,
-        topic_label: { $in: topic_label },
-        topic_keywords: { $in: topic_keywords },
-      })
-      .exec();
   }
 
   async create(document: DocumentEntity): Promise<DocumentEntity> {

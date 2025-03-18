@@ -168,6 +168,17 @@ export const TypographyH5 = ({ sx, ...props }: any) => (
   />
 );
 
+export const TypographyH6 = ({ sx, ...props }: any) => (
+  <StyledTypography
+    sx={{
+      color: "rgba(0, 0, 0, 0.6)",
+      fontSize: "clamp(1.00rem, calc(0.96rem + 0.21vw), 1.13rem)",
+      ...sx,
+    }}
+    {...props}
+  />
+);
+
 export const TypographyBody = ({ sx, ...props }: any) => (
   <Typography
     sx={{

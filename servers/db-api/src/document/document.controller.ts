@@ -7,18 +7,7 @@ export class DocumentController {
 
   @Get()
   async getAllDocuments(): Promise<any[]> {
-    const documents = await this.documentService.findAll();
-    return documents.map((doc) => ({
-      id: doc._id,
-      pdf_id: doc.pdf_id,
-      cluster: doc.category,
-      title: doc.title,
-      description: doc.processed_text,
-      topic: doc.topic_label,
-      keywords: doc.topic_keywords,
-      date: doc.date,
-      link: doc.link,
-    }));
+    return this.documentService.findDocuments({});
   }
 
   @Get('topics/:cluster')
@@ -43,29 +32,17 @@ export class DocumentController {
   async getDocumentsByQuery(
     @Body()
     query: {
-      title: string;
-      cluster: string;
+      search: string;
+      category: string;
       topics: string[];
       keywords: string[];
     },
   ): Promise<any[]> {
-    const documents = await this.documentService.findByCombinedQuery(
-      query.title.toLocaleLowerCase(),
-      query.cluster.toLocaleLowerCase(),
-      query.topics,
-      query.keywords,
-    );
-
-    return documents.map((doc) => ({
-      id: doc._id,
-      pdf_id: doc.pdf_id,
-      cluster: doc.category,
-      title: doc.title,
-      description: doc.processed_text,
-      topic: doc.topic_label,
-      keywords: doc.topic_keywords,
-      date: doc.date,
-      link: doc.link,
-    }));
+    return this.documentService.findDocuments({
+      search: query.search.toLocaleLowerCase(),
+      category: query.category.toLocaleLowerCase(),
+      topic_label: query.topics,
+      topic_keywords: query.keywords,
+    });
   }
 }

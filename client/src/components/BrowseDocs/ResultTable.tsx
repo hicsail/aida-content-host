@@ -1,9 +1,5 @@
 import {
   Box,
-  Card,
-  CardActions,
-  CardContent,
-  Chip,
   FormControl,
   IconButton,
   InputLabel,
@@ -11,27 +7,34 @@ import {
   Pagination,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import {
-  StyledButton,
-  StyledMarkdown,
-  TypographyBody,
-  TypographyH5,
-  TypographyLink,
-} from "../GeneralComponents";
+import { TypographyBody } from "../GeneralComponents";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { queryDocuments } from "../../utils/api";
+import { ResultItem } from "./ResultItem";
+
+interface CombinedDocuments {
+  pdf_id: string;
+  category: string;
+  title: string;
+  link: string;
+  date: string;
+  docs: {
+    id: string;
+    description: string;
+    topic: string;
+    keywords: string[];
+  }[];
+}
 
 interface ResultTableProps {
-  filters: { title: string; cluster: string; topics: string[]; keywords: string[] };
+  filters: { search: string; category: string; topics: string[]; keywords: string[] };
 }
 
 export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
-  const [documents, setDocuments] = useState<any[]>([]);
+  const [documents, setDocuments] = useState<CombinedDocuments[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [expandedCards, setExpandedCards] = useState<{ [key: string]: boolean }>({});
   const [sortBy, setSortBy] = useState<string>("title");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -39,6 +42,7 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
 
   useEffect(() => {
     queryDocuments(filters).then(setDocuments);
+    setPage(1);
   }, [filters]);
 
   const sortedData = [...documents].sort((a, b) => {
@@ -51,17 +55,15 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
 
   const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    queryDocuments({ ...filters, title: e.target.value }).then(setDocuments);
+    queryDocuments({ ...filters, search: e.target.value }).then(setDocuments);
+    setPage(1);
   };
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
-  const toggleExpand = (id: string) => {
-    setExpandedCards((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-  const MAX_LENGTH = 400;
+  const paginatedDocuments = sortedData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
     <>
@@ -159,37 +161,9 @@ export const ResultTable: FC<ResultTableProps> = ({ filters }) => {
           </IconButton>
         </Box>
       </Box>
-      {sortedData.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((item) => (
-        <Card key={item.id} sx={{ mb: 2, p: 2 }}>
-          <CardContent sx={{ textAlign: "left" }}>
-            <TypographyH5>{item.title}</TypographyH5>
-            <Box sx={{ mb: 2 }}>
-              <StyledMarkdown>
-                {expandedCards[item.id] || item.description.length <= MAX_LENGTH
-                  ? item.description
-                  : `${item.description.substring(0, MAX_LENGTH)}... `}
-              </StyledMarkdown>
-              {item.description.length > MAX_LENGTH && (
-                <TypographyLink component="span" onClick={() => toggleExpand(item.id)}>
-                  {expandedCards[item.id] ? "View Less" : "View More"}
-                </TypographyLink>
-              )}
-            </Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>
-              {item.keywords.map((keyword: string, index: number) => (
-                <Chip key={index} label={keyword} />
-              ))}
-            </Box>
-            <Typography variant="caption" color="text.secondary">
-              {new Date(item.date).toDateString()}
-            </Typography>
-          </CardContent>
-          <CardActions sx={{ justifyContent: "end" }}>
-            <StyledButton size="small" variant="contained" href={item.link} target="_blank">
-              Continue Reading
-            </StyledButton>
-          </CardActions>
-        </Card>
+
+      {paginatedDocuments.map((docGroup) => (
+        <ResultItem key={docGroup.pdf_id} docGroup={docGroup} itemsPerGroupPage={3} />
       ))}
 
       <Pagination

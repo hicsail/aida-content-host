@@ -4,8 +4,8 @@ export const fetchDocuments = async () => {
 };
 
 export const queryDocuments = async (filters: {
-  title: string;
-  cluster: string;
+  search: string;
+  category: string;
   topics: string[];
   keywords: string[];
 }) => {

@@ -6,10 +6,10 @@ import { fetchKeywords, fetchTopics } from "../../utils/api";
 const clusters = ["All", "Business", "Education", "Government", "Others"];
 
 interface FilterPanelProps {
-  filters: { title: string; cluster: string; topics: string[]; keywords: string[] };
+  filters: { search: string; category: string; topics: string[]; keywords: string[] };
   onFilterChange: (newFilters: {
-    title: string;
-    cluster: string;
+    search: string;
+    category: string;
     topics: string[];
     keywords: string[];
   }) => void;
@@ -30,21 +30,21 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
   }, []);
 
   useEffect(() => {
-    fetchTopics(filters.cluster).then((allTopics) => {
+    fetchTopics(filters.category).then((allTopics) => {
       setTopics(allTopics);
     });
 
-    fetchKeywords(filters.cluster).then((allKeywords) => {
+    fetchKeywords(filters.category).then((allKeywords) => {
       setKeywords(allKeywords);
     });
   }, [filters]);
 
-  const handleClusterChange = (cluster: string) => {
-    fetchTopics(cluster).then((allTopics) => {
-      fetchKeywords(cluster).then((allKeywords) => {
+  const handleClusterChange = (category: string) => {
+    fetchTopics(category).then((allTopics) => {
+      fetchKeywords(category).then((allKeywords) => {
         onFilterChange({
           ...filters,
-          cluster,
+          category,
           topics: allTopics,
           keywords: allKeywords,
         });
@@ -77,7 +77,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
         {clusters.map((option: string) => (
           <StyledButton
             key={option}
-            variant={filters.cluster === option ? "contained" : "outlined"}
+            variant={filters.category === option ? "contained" : "outlined"}
             onClick={() => handleClusterChange(option)}
           >
             {option}
@@ -85,7 +85,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
         ))}
       </Box>
 
-      <Collapse in={!!filters.cluster} timeout="auto" unmountOnExit>
+      <Collapse in={!!filters.category} timeout="auto" unmountOnExit>
         <Box mt={2} display="flex" flexDirection="column">
           <TypographyH4 textAlign="left" sx={{ mb: 1 }}>
             Topics
@@ -109,6 +109,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                 }
                 label="All Topics"
                 sx={{
+                  color: "#213547",
                   textAlign: "left",
                   "& .MuiTypography-root": { fontSize: "0.875rem" },
                 }}
@@ -124,6 +125,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   }
                   label={topic}
                   sx={{
+                    color: "#213547",
                     textAlign: "left",
                     "& .MuiTypography-root": { fontSize: "0.875rem" },
                   }}
@@ -155,6 +157,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                 }
                 label="All Keywords"
                 sx={{
+                  color: "#213547",
                   textAlign: "left",
                   "& .MuiTypography-root": { fontSize: "0.875rem" },
                 }}
@@ -170,6 +173,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ filters, onFilterChange }) =
                   }
                   label={keyword}
                   sx={{
+                    color: "#213547",
                     textAlign: "left",
                     "& .MuiTypography-root": { fontSize: "0.875rem" },
                   }}

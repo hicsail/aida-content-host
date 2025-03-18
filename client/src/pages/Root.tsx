@@ -64,7 +64,7 @@ export const RootLayout: FC = () => {
                 sx={{ boxShadow: "none" }}
                 onClick={handleToggle}
               >
-                Topic Modeling
+                Topic Models
               </StyledButton>
               <Popper
                 open={open}
