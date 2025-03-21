@@ -15,13 +15,13 @@ services:
       - app-network
 
   backend-digital-repo:
-    build: ./servers/db-api
+    build: ./servers/digital-repository
     depends_on:
       - mongodb
     networks:
       - app-network
     env_file:
-      - ./servers/db-api/.env
+      - ./servers/digital-repository/.env
 
   mongodb:
     image: mongo:6

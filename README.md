@@ -16,7 +16,7 @@ cd aida-content-host
 Update the environment files with the required configurations:
 
 - At root directory, change `.env-example` to `.env` (you don't need to change any values)
-- Navigate to `./server/db-api` and chage `.env-example` to `.env` (you don't need to change the value)
+- Navigate to `./server/digital-repository` and chage `.env-example` to `.env` (you don't need to change the value)
 
 ### 3. Ensure Docker is Running
 
