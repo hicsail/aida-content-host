@@ -2,10 +2,10 @@ numpy==1.26.4
 scikit-learn==1.5.2
 openai==0.28.0
 hdbscan==0.8.33
-sentence-transformers==2.5.1
+sentence-transformers
 bertopic==0.16.0
 plotly==5.20.0
-torch==2.2.1
+torch
 pandas==2.2.0
 spacy==3.7.4
 scipy==1.12.0

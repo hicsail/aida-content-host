@@ -33,7 +33,7 @@ jobs:
       - name: Build & Push Docker Staging Build
         uses: docker/build-push-action@v5
         with:
-          context: ./servers/db-api
+          context: ./servers/digital-repository
           push: ${{ github.event_name != 'pull_request' }}
           tags: hicsail/aida-backend-digital-repo:${{ env.IMAGE_TAG }}
           build-args: |
